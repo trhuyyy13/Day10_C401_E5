@@ -115,13 +115,29 @@ def clean_rows(
             quarantine.append({**raw, "reason": "missing_chunk_text"})
             continue
 
+
+        # Rule mới 1: quarantine nếu exported_at rỗng
+        if not exported_at:
+            quarantine.append({**raw, "reason": "missing_exported_at"})
+            continue
+
+        # Rule mới 2: quarantine nếu chunk_text chứa ký tự đặc biệt bất thường
+        if any(c in text for c in ['$', '%', '^', '*', '~']):
+            quarantine.append({**raw, "reason": "suspicious_special_char_in_chunk_text"})
+            continue
+
         key = _norm_text(text)
         if key in seen_text:
             quarantine.append({**raw, "reason": "duplicate_chunk_text"})
             continue
         seen_text.add(key)
 
-        fixed_text = text
+        # Rule mới 3: chuẩn hóa chunk_text về viết hoa đầu câu
+        def capitalize_sentences(s):
+            import re
+            return re.sub(r'(^|[.!?]\s+)([a-zà-ỹ])', lambda m: m.group(1) + m.group(2).upper(), s)
+        fixed_text = capitalize_sentences(text)
+
         if apply_refund_window_fix and doc_id == "policy_refund_v4":
             if "14 ngày làm việc" in fixed_text:
                 fixed_text = fixed_text.replace(

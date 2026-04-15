@@ -17,10 +17,13 @@
 - transform/cleaning_rules.py
 - etl_pipeline.py
 - quality/expectations.py
+- docs/data_contract.md
 
 **Kết nối với thành viên khác:**
 
 Tôi phối hợp với các bạn Docs Owner để đảm bảo các rule về cleaning, quarantine, expectation được áp dụng đúng, đồng thời cập nhật tài liệu hướng dẫn và báo cáo nhóm. Tôi cũng trao đổi với Monitoring Owner để kiểm tra các guardrail mới và xác nhận kết quả trên log.
+
+Tôi thường xuyên đối chiếu với data_contract.md để đảm bảo các rule, expectation, schema trong code luôn bám sát hợp đồng dữ liệu đã thống nhất, tránh sai lệch giữa tài liệu và triển khai thực tế.
 
 **Bằng chứng (commit / comment trong code):**
 
@@ -45,7 +48,21 @@ Khi kiểm thử với run inject-bad, tôi phát hiện expectation `refund_no_
 
 ## 4. Bằng chứng trước / sau (80–120 từ)
 
-Tôi đã thử inject các lỗi như chunk thiếu exported_at, chunk chứa ký tự đặc biệt và chunk refund stale. Trước khi clean, file `artifacts/eval/before_after_eval.csv` cho thấy `q_refund_window contains_expected=yes, hits_forbidden=no`. Sau khi inject-bad, file `artifacts/eval/after_inject_bad.csv` cho thấy `q_refund_window contains_expected=yes, hits_forbidden=yes`, đồng thời các dòng lỗi bị quarantine đúng theo rule mới, expectation tương ứng cũng FAIL. Điều này chứng minh các rule và expectation mới đã phát huy tác dụng, giúp loại bỏ dữ liệu lỗi và nâng cao chất lượng retrieval.
+Tôi đã kiểm thử và ghi nhận số liệu thực tế từ file kết quả:
+
+**Trước khi clean (before_after_eval.csv):**
+```
+gq_d10_01,...,policy_refund_v4,...,yes,no,,3
+```
+Nghĩa là: câu hỏi về policy_refund_v4 có contains_expected=yes, hits_forbidden=no (không phát hiện lỗi stale 14 ngày).
+
+**Sau khi inject lỗi (after_inject_bad.csv):**
+```
+gq_d10_01,...,policy_refund_v4,...,yes,yes,,3
+```
+Nghĩa là: cùng câu hỏi, contains_expected=yes nhưng hits_forbidden=yes (đã phát hiện lỗi stale 14 ngày do intentionally inject).
+
+Các dòng này chứng minh rõ ràng rule và expectation mới đã hoạt động đúng, giúp quarantine và cảnh báo các trường hợp dữ liệu lỗi, nâng cao chất lượng pipeline.
 
 ---
 

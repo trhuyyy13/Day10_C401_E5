@@ -27,6 +27,30 @@ def run_expectations(cleaned_rows: List[Dict[str, Any]]) -> Tuple[List[Expectati
     """
     results: List[ExpectationResult] = []
 
+    # E mới 1: không dòng nào thiếu exported_at
+    missing_exported = [r for r in cleaned_rows if not (r.get("exported_at") or "").strip()]
+    ok_missing_exported = len(missing_exported) == 0
+    results.append(
+        ExpectationResult(
+            "no_missing_exported_at",
+            ok_missing_exported,
+            "halt",
+            f"missing_exported_at_count={len(missing_exported)}",
+        )
+    )
+
+    # E mới 2: không dòng nào chứa ký tự đặc biệt bất thường trong chunk_text
+    special_char_rows = [r for r in cleaned_rows if any(c in (r.get("chunk_text") or "") for c in ['$', '%', '^', '*', '~'])]
+    ok_special_char = len(special_char_rows) == 0
+    results.append(
+        ExpectationResult(
+            "no_special_char_in_chunk_text",
+            ok_special_char,
+            "warn",
+            f"special_char_rows={len(special_char_rows)}",
+        )
+    )
+
     # E1: có ít nhất 1 dòng sau clean
     ok = len(cleaned_rows) >= 1
     results.append(

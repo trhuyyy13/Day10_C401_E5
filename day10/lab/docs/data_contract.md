@@ -8,7 +8,11 @@
 
 | Nguồn | Phương thức ingest | Failure mode chính | Metric / alert |
 |-------|-------------------|-------------------|----------------|
-| … | … | … | … |
+| policy_refund_v4 | CSV export (manual/scheduled) | Duplicate record, stale version, wrong refund window | duplicate_count, stale_chunk_detected, refund_window_mismatch |
+| hr_leave_policy | CSV export (manual/scheduled) | Version conflict (10 vs 12 days), missing effective_date | version_conflict_count, missing_date_count |
+| sla_p1_2026 | CSV export (manual/scheduled) | Missing/invalid SLA, wrong date format | missing_sla_count, invalid_date_count |
+| it_helpdesk_faq | CSV export (manual/scheduled) | Missing chunk_text, invalid effective_date | missing_text_count, invalid_date_count |
+| legacy_catalog_xyz_zzz | CSV export (manual/scheduled) | Unknown doc_id, fails expectation (length, schema) | unknown_docid_count, expectation_fail_count |
 
 ---
 

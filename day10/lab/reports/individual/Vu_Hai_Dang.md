@@ -38,7 +38,17 @@ Anomaly chính tôi xử lý là freshness fail do dữ liệu nguồn cũ. Khi 
 
 ## 4. Bằng chứng trước / sau (80–120 từ)
 
-**run_id trước:** `ci-smoke2`  
+a, **run iD:** `inject-bad` (test inject lỗi để kiểm tra Observability)
+
+- **Trước:** Bị chặn do `refund_no_stale_14d_window` → FAIL  
+- **Sau (Skip Validate):** Cho dữ liệu lỗi đi qua để quan sát
+
+**Kết quả (`after_inject_bad.csv`):**
+- AI trả lời có vẻ đúng nhưng **Hits Forbidden = YES**
+- ⇒ Hệ thống đã phát hiện đúng dữ liệu “độc hại” (14 ngày) trong context
+
+
+b, **run_id trước:** `ci-smoke2`  
 **run_id sau:** `freshness-utc-now`
 
 **Freshness trước/sau (tương đương before/after):**
@@ -46,7 +56,7 @@ Anomaly chính tôi xử lý là freshness fail do dữ liệu nguồn cũ. Khi 
 - Trước: `FAIL` với `age_hours=126.635` và `sla_hours=24.0` (manifest `ci-smoke2`).
 - Sau: `PASS` với `age_hours=5.764` và `sla_hours=24.0` (manifest `freshness-utc-now`).
 
-**2 dòng từ `before_after_eval.csv`:**
+c, **2 dòng từ `before_after_eval.csv`:**
 
 - `gq_d10_01,"Theo policy hoàn tiền nội bộ, khách có tối đa bao nhiêu ngày làm việc để gửi yêu cầu hoàn tiền sau khi đơn được xác nhận?",policy_refund_v4,Yêu cầu hoàn tiền được chấp nhận trong vòng 7 ngày làm việc kể từ xác nhận đơn (ghi chú: bản sync cũ policy-v3 — lỗi migration). [cleaned: stale_refund_window],yes,no,,3`
 

@@ -10,7 +10,6 @@ User / agent trả lời đúng ở top-1 nhưng vẫn còn chunk stale trong to
 
 ## Detection
 
-Detection dựa trên 3 tín hiệu chính: freshness check từ manifest, expectation fail trong log pipeline, và cột hits_forbidden trong CSV eval. Với run hiện tại, freshness_check=FAIL vì latest_exported_at=2026-04-10T08:00:00 trong khi SLA là 24h; với inject-bad, expectation refund_no_stale_14d_window fail và q_refund_window trong eval chuyển sang hits_forbidden=yes.
 Detection dựa trên 3 tín hiệu chính: freshness check từ manifest, expectation fail trong log pipeline, và cột hits_forbidden trong CSV eval. Với run hiện tại, freshness_check=FAIL vì latest_exported_at=2026-04-10T08:00:00 trong khi SLA là 24h; với inject-bad, expectation refund_no_stale_14d_window fail và q_refund_window trong eval chuyển sang hits_forbidden=yes. Nếu raw có dòng thiếu `exported_at` hoặc chunk_text chứa ký tự bất thường, các expectation mới `no_missing_exported_at` và `no_special_char_in_chunk_text` sẽ báo trước khi publish.
 
 ---

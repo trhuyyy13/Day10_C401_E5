@@ -10,12 +10,6 @@
 
 ---
 
-> Viết **"tôi"**, đính kèm **run_id**, **tên file**, **đoạn log** hoặc **dòng CSV** thật.  
-> Nếu làm phần clean/expectation: nêu **một số liệu thay đổi** (vd `quarantine_records`, `hits_forbidden`, `top1_doc_expected`) khớp bảng `metric_impact` của nhóm.  
-> Lưu: `reports/individual/luong_anh_tuan.md`
-
----
-
 ## 1. Tôi phụ trách phần nào? (80–120 từ)
 
 **File / module:**

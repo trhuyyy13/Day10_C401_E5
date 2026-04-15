@@ -52,10 +52,27 @@ def main() -> int:
     questions = json.loads(qpath.read_text(encoding="utf-8"))
     db_path = os.environ.get("CHROMA_DB_PATH", str(ROOT / "chroma_db"))
     collection_name = os.environ.get("CHROMA_COLLECTION", "day10_kb")
+    provider = os.environ.get("EMBEDDING_PROVIDER", "local").lower()
     model_name = os.environ.get("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
 
     client = chromadb.PersistentClient(path=db_path)
-    emb = embedding_functions.SentenceTransformerEmbeddingFunction(model_name=model_name)
+
+    # Mirror ETL embedding selection to avoid collection embedding conflicts.
+    if provider == "openai" or model_name.startswith("text-embedding-"):
+        openai_api_key = os.environ.get("OPENAI_API_KEY")
+        if not openai_api_key:
+            print(
+                "OPENAI_API_KEY is required when EMBEDDING_PROVIDER=openai or model is text-embedding-*",
+                file=sys.stderr,
+            )
+            return 3
+        emb = embedding_functions.OpenAIEmbeddingFunction(
+            api_key=openai_api_key,
+            model_name=model_name,
+        )
+    else:
+        emb = embedding_functions.SentenceTransformerEmbeddingFunction(model_name=model_name)
+
     try:
         col = client.get_collection(name=collection_name, embedding_function=emb)
     except Exception as e:

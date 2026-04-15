@@ -1,16 +1,18 @@
 # Báo Cáo Nhóm — Lab Day 10: Data Pipeline & Data Observability
 
-**Tên nhóm:** ___________  
+**Tên nhóm:** C401-E5 
 **Thành viên:**
 | Tên | Vai trò (Day 10) | Email |
 |-----|------------------|-------|
-| ___ | Ingestion / Raw Owner | ___ |
-| ___ | Cleaning & Quality Owner | ___ |
-| ___ | Embed & Idempotency Owner | ___ |
-| ___ | Monitoring / Docs Owner | ___ |
+| Vu Hai Dang| Monitoring + Docs Owner| dangvu.cspk53@gmail.com |
+| Luong Tien Dung | Docs Owner   | ___ |
+| Tran Ngoc Son | Docs Owner | ___ |
+| Le Hoang Dat | Docs Owner | ___ |
+| Luong Anh Tuan | Rule Owner | ___ |
+| Tran Quang Huy|  Docs Owner |  |
 
-**Ngày nộp:** ___________  
-**Repo:** ___________  
+**Ngày nộp:** 15/04/2025 
+**Repo:** trhuyyy13/Day10_C401_E5
 **Độ dài khuyến nghị:** 600–1000 từ
 
 ---

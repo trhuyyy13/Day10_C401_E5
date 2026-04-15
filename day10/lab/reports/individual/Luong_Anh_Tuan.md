@@ -23,8 +23,6 @@
 
 Tôi phối hợp với các bạn Docs Owner để đảm bảo các rule về cleaning, quarantine, expectation được áp dụng đúng, đồng thời cập nhật tài liệu hướng dẫn và báo cáo nhóm. Tôi cũng trao đổi với Monitoring Owner để kiểm tra các guardrail mới và xác nhận kết quả trên log.
 
-Tôi thường xuyên đối chiếu với data_contract.md để đảm bảo các rule, expectation, schema trong code luôn bám sát hợp đồng dữ liệu đã thống nhất, tránh sai lệch giữa tài liệu và triển khai thực tế.
-
 **Bằng chứng (commit / comment trong code):**
 
 - Commit hash: 0cfd4e2b96270b4ecc11aceeaf8a84819863f0fb

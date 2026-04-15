@@ -12,14 +12,16 @@
 Trong Day 10, tôi tập trung vào ba cụm việc: chỉnh tài liệu kiến trúc pipeline, sửa script đánh giá retrieval, và chạy thử dữ liệu raw theo nhiều cấu hình để quan sát output. Hai file tôi chỉnh trực tiếp là `docs/pipeline_architecture.md` và `eval_retrieval.py`. Với dữ liệu nguồn, tôi dùng `data/raw/policy_export_dirty.csv` để chạy các run khác nhau rồi đối chiếu manifest, freshness, và file eval. Tôi phối hợp với phần embed bằng cách xác nhận collection có dữ liệu trước khi eval, sau đó xuất `artifacts/eval/before_after_eval.csv` làm bằng chứng cho report nhóm/cá nhân. Công việc của tôi nghiêng về tính đúng của luồng dữ liệu và tính nhất quán giữa pipeline chạy thật với kết quả đo chất lượng.
 
 **Bằng chứng thao tác:**
+
+- Commit: 1dfeab9a7cd1e94988eebada86b4c66d4492239e - `docs/pipeline_architecture.md` và `eval_retrieval.py`
+
+
+- Commit: 5b8bb98e7dd44bef310ed0fe3e8720ec1802b056 - dùng `data/raw/policy_export_dirty.csv` để chạy các run khác nhau rồi đối chiếu manifest, freshness, và file eval.
 - `python etl_pipeline.py run --run-id ci-smoke2`
 - `python etl_pipeline.py run --run-id freshness-utc-now`
 - `python etl_pipeline.py run --run-id rerun-a`
 - `python eval_retrieval.py --out artifacts/eval/before_after_eval.csv`
 
-Commit: 1dfeab9a7cd1e94988eebada86b4c66d4492239e - `docs/pipeline_architecture.md` và `eval_retrieval.py`
-
-Commit: 5b8bb98e7dd44bef310ed0fe3e8720ec1802b056 - dùng `data/raw/policy_export_dirty.csv` để chạy các run khác nhau rồi đối chiếu manifest, freshness, và file eval.
 ---
 
 ## 2. Một quyết định kỹ thuật (100–150 từ)
